@@ -19,7 +19,6 @@ export function CardEvents({title, description, date, hour, image, category, lab
                 <p className="dark:text-clr-light-gray my-3">{date}, {hour}</p>
                 <div className='flex gap-4'>
                     <span className='px-4 py-2 rounded-md bg-clr-light-green text-clr-dark-green dark:bg-clr-dark-green dark:text-clr-light-green'>{category}</span>
-                    <span className='px-4 py-2 rounded-md bg-clr-light-pink text-clr-dark-pink dark:bg-clr-dark-pink dark:text-clr-light-pink'>{label}</span>
                     <span className='px-4 py-2 rounded-md bg-clr-light-bg text-clr-dark-gray dark:bg-clr-dark-gray dark:text-clr-light-bg'>{statusText}</span>
                 </div>
             </div>
@@ -35,7 +34,7 @@ CardEvents.propTypes = {
     image: PropTypes.string.isRequired,
     category: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
-    status: PropTypes.string.isRequired,
+    status: PropTypes.number.isRequired,
     percent: PropTypes.number.isRequired
 }
 
