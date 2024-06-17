@@ -1,7 +1,7 @@
 import "../../index.css";
 import PropTypes from "prop-types";
 import defaultImage from "../../assets/imgs/image_card.png";
-export function EventSummary({ title, date, hour, image, percent }) {
+export function EventSummary({ title, image, percent, schedule_at }) {
   return (
       <div className="rounded-lg bg-white dark:bg-clr-dark-bg p-2 flex gap-4 items-center">
         <div className="size-20 w-24 overflow-hidden rounded-lg">
@@ -12,7 +12,7 @@ export function EventSummary({ title, date, hour, image, percent }) {
             <h3 className="dark:text-white">{title}</h3>
             {percent ? <h3 className="dark:text-white">{percent}%</h3> : null}
           </section>
-          <p className="dark:text-clr-light-gray">{date}, {hour}</p>
+          <p className="dark:text-clr-light-gray">{schedule_at}</p>
         </section>
       </div>
   );

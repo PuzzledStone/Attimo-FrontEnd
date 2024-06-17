@@ -16,7 +16,6 @@ export function MyCourses({ items, name }) {
       setCardCourses(data);
   }
 
-
   useEffect(() => {
       getData();
     }, []);
@@ -45,6 +44,8 @@ export function MyCourses({ items, name }) {
                 consultations={item.consultations}
                 image={item.image || defaultImage }
                 //progress={item.progress}
+                day={item.day}
+                hour={item.hour}
               />
             ))}
           </div>

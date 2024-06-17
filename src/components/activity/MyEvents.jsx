@@ -11,27 +11,16 @@ export function MyEvents({ items }) {
   const [cardActivity, setCardActivity] = useState([]);
   const [filteredActivities, setFilteredActivities] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const getData = async () =>{
+    const response = await fetch ('http://attimobackend.test/attimo-backend/public/api/activity/all');
+    const data = await response.json();
+    setCardActivity(data);
+    setFilteredActivities(data); 
+}
 
-  useEffect(() => {
+useEffect(() => {
     getData();
   }, []);
-
-  const getData = async () => {
-    try {
-      const response = await fetch(
-        "http://attimobackend.test/attimo-backend/public/api/activity/all"
-      );
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-      setCardActivity(data);
-      setFilteredActivities(data); 
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      
-    }
-  };
 
   const handleSearch = (query) => {
     setSearchTerm(query);
