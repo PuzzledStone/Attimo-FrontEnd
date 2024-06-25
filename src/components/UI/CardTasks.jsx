@@ -29,11 +29,10 @@ export function CardTasks({ taskCompleted, taskRemaining, courses }) {
                                 title="There are no courses" 
                                 icon={LibraryBig} 
                               />
-                            ) : (
-                                courses.map((course) => (
-                                    <p key={course.id} className="dark:text-clr-light-gray">• {course.title}</p>
-                                ))
-                            )}
+                            ) : 
+                            courses.map((course) => (
+                                <p key={course.id} className="dark:text-clr-light-gray">• {course.name}</p>
+                            ))}
                         </div>
                     </div>
                 </section>

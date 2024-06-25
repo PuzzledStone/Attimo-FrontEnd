@@ -1,26 +1,43 @@
 import "../../index.css";
-import "../UI/CardCourses.jsx";
 import { useState, useEffect } from "react";
 import { LibraryBig } from "lucide-react";
 import { EmptyState } from "../UI/EmptyState.jsx";
 import { CardCourses } from "../UI/CardCourses.jsx";
 
 export function MyCourses({ items, name }) {
-  
-  
   const [cardCourses, setCardCourses] = useState([]);
 
-  const getData = async () =>{
-      const response = await fetch ('http://attimobackend.test/attimo-backend/public/api/course/all');
-      const data = await response.json();
-      setCardCourses(data);
-  }
-
   useEffect(() => {
-      getData();
-    }, []);
-  
-  
+    const fetchCourses = async () => {
+      try {
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+          throw new Error('No token found');
+        }
+
+        const response = await fetch('http://attimobackend.test/attimo-backend/public/api/user/courses', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch courses');
+        }
+
+        const data = await response.json();
+        setCardCourses(data);
+      } catch (error) {
+        console.error('Error fetching courses:', error);
+       
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
   return (
     <>
       <h1 className="dark:text-white dark:duration-300">My Courses</h1>
@@ -43,7 +60,6 @@ export function MyCourses({ items, name }) {
                 description={item.description}
                 consultations={item.consultations}
                 image={item.image || defaultImage }
-                //progress={item.progress}
                 day={item.day}
                 hour={item.hour}
               />

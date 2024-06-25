@@ -1,35 +1,79 @@
-import {CardProfile} from "../../components/UI/CardProfile"
-import {CardTasks} from "../../components/UI/CardTasks"
-import { useEditProfile} from '../hooks/useModal';
+import React, { useState, useEffect } from "react";
+import { CardProfile } from "../../components/UI/CardProfile";
+import { CardTasks } from "../../components/UI/CardTasks";
+import { useEditProfile } from "../hooks/useModal";
 import { ModalButtons } from "../../components/UI/ModalButtons";
 import EditProfileModal from "./EditProfileContent";
 
+export function ProfileContent({ img, name, lastName1, lastName2, mail, usr, taskCompleted, taskRemaining, courses }) {
+  const { editModalIsOpen, closeEditModal, handleEditProfileClick } = useEditProfile();
+  const [profileInfo, setProfileInfo] = useState({});
+  const [info, setInfo] = useState([]);
 
-export function ProfileContent({img, name, lastName1, lastName2, mail, usr, taskCompleted, taskRemaining, courses}){
-    const { editModalIsOpen,  closeEditModal, handleEditProfileClick } = useEditProfile();
+  const token = localStorage.getItem('token');
 
-    return (
-        <>
-        <div>
-            <CardProfile
-                img={img}
-                name={name}
-                lastName1={lastName1}
-                lastName2={lastName2}
-                mail={mail}
-                usr={usr}
-            />   
-            <CardTasks
-                taskCompleted={taskCompleted}
-                taskRemaining={taskRemaining}
-                courses={courses}
-            />
-            <div className='justify-center flex'>
-                <ModalButtons onClick={() => { handleEditProfileClick(); }} text="Edit Profile"/>
-            </div>
-                <EditProfileModal isOpen={editModalIsOpen} onClose={closeEditModal} profileInfo={{img, name, lastName1, lastName2, mail, usr}}/>
+  const fetchProfileInfo = async () => {
+    try {
+      const response = await fetch('http://attimobackend.test/attimo-backend/public/api/user', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const response2 = await fetch('http://attimobackend.test/attimo-backend/public/api/user/courses', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch profile information');
+      }
+
+      if (!response2.ok) {
+        throw new Error('Failed to fetch user courses information');
+      }
+
+      const data = await response.json();
+      const data2 = await response2.json();
+
+      setProfileInfo(data);
+      setInfo(data2);
+    } catch (error) {
+      console.error('Error fetching profile information:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProfileInfo();
+  }, []);
+
+  return (
+    <>
+      <div>
+        <CardProfile
+          img={profileInfo.image}
+          name={profileInfo.name}
+          lastName1={profileInfo.lastname1}
+          lastName2={profileInfo.lastname2}
+          mail={profileInfo.email}
+          usr={profileInfo.username}
+        />
+
+        <CardTasks
+          taskCompleted={taskCompleted}
+          taskRemaining={taskRemaining}
+          courses={info} 
+        />
+
+        <div className='justify-center flex'>
+          <ModalButtons onClick={() => { handleEditProfileClick(); }} text="Edit Profile" />
         </div>
-        
-        </>
-    );
+
+        <EditProfileModal isOpen={editModalIsOpen} onClose={closeEditModal} profileInfo={{ img, name, lastName1, lastName2, mail, usr }} />
+      </div>
+    </>
+  );
 }

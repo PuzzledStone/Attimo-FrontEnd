@@ -7,19 +7,23 @@ import { EmptyState } from "../UI/EmptyState.jsx";
 
 export function UpcomingEvents({ items }) {
   const [cardUpcoming, setUpcoming] = useState([]);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('http://attimobackend.test/attimo-backend/public/api/activity/all');
+      const response = await fetch("http://attimobackend.test/attimo-backend/public/api/user/activities",{
+          headers: {Authorization: `Bearer ${token}`,},
+        });
+
       if (!response.ok) {
         console.error('Failed to fetch activities');
         return;
       }
-      const data = await response.json();
-      const currentDate = new Date();
-      const sortedActivities = data.sort((a, b) => new Date(a.scheduled_at) - new Date(b.scheduled_at));
-      const upcomingActivities = sortedActivities.filter(activity => new Date(activity.scheduled_at) >= currentDate).slice(0, 4);
-      setUpcoming(upcomingActivities);
+        const data = await response.json();
+        const currentDate = new Date();
+        const sortedActivities = data.sort((a, b) => new Date(a.scheduled_at) - new Date(b.scheduled_at));
+        const upcomingActivities = sortedActivities.filter(activity => new Date(activity.scheduled_at) >= currentDate).slice(0, 4);
+        setUpcoming(upcomingActivities);
     };
 
     fetchData();

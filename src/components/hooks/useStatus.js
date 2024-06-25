@@ -6,13 +6,16 @@ function useStatus(statusNumber) {
   useEffect(() => {
     switch (statusNumber) {
       case 1:
-        setStatusText('Activo');
+        setStatusText('Active');
         break;
       case 2:
-        setStatusText('Expirado');
+        setStatusText('Expired');
+        break;
+      case 3:
+        setStatusText('Completed');
         break;
       default:
-        setStatusText('Desconocido');
+        setStatusText('Uknown');
         break;
     }
   }, [statusNumber]);
