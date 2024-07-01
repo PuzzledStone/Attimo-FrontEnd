@@ -28,14 +28,6 @@ export function ProfileContent({ img, name, lastName1, lastName2, mail, usr, tas
         }
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch profile information');
-      }
-
-      if (!response2.ok) {
-        throw new Error('Failed to fetch user courses information');
-      }
-
       const data = await response.json();
       const data2 = await response2.json();
 

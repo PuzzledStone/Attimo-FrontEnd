@@ -1,5 +1,5 @@
 import { ChevronFirst, ChevronLast, MoreVertical, LayoutDashboard, Home, Bell, BarChart, Sun, Moon, LogOut } from "lucide-react";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { useDarkMode } from "../hooks/useDarkMode";
 import { Link } from "react-router-dom";
 import { ProfileContent } from "../activity/ProfileContent";
@@ -14,6 +14,7 @@ const SidebarContext = createContext();
 export default function Sidebar({ children, image, username, email, items }) {
   const [expanded, setExpanded] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [profileInfo, setProfileInfo] = useState({});
   const { theme, handleChangeTheme } = useDarkMode();
   const [notificationsModalIsOpen, setNotificationsModalIsOpen] =
     useState(false);
@@ -112,6 +113,31 @@ export default function Sidebar({ children, image, username, email, items }) {
     setNotifications([]);
   };
 
+  
+ 
+  const fetchProfileInfo = async () => {
+    try {
+      const token = localStorage.getItem('token'); 
+      const response = await fetch('http://attimobackend.test/attimo-backend/public/api/user', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      setProfileInfo(data); // Actualizar el estado con la información del perfil
+    } catch (error) {
+      console.error('Error fetching profile information:', error);
+    }
+  };
+  
+  useEffect(() => {
+    fetchProfileInfo();
+  }, []); 
+
   return (
     <>
       <aside className="h-screen fixed z-[1] text-white">
@@ -177,7 +203,7 @@ export default function Sidebar({ children, image, username, email, items }) {
 
           <div className="border-t flex p-3">
             <div className="w-10 h-10 rounded-md overflow-hidden">
-              <img src={image} className="w-full h-full" alt="Profile" />
+              <img src={profileInfo.image} className="w-full h-full" alt="Profile" />
             </div>
 
             <div
@@ -186,8 +212,8 @@ export default function Sidebar({ children, image, username, email, items }) {
               }`}
             >
               <div className="leading-4">
-                <h4 className="font-semibold">{username}</h4>
-                <span className="text-xs">{email}</span>
+                <h4 className="font-semibold">{profileInfo.username}</h4>
+                <span className="text-xs">{profileInfo.email}</span>
               </div>
               <MoreVertical
                 size={20}
