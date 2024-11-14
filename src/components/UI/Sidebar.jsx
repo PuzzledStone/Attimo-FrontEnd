@@ -8,6 +8,8 @@ import GenericModal from "../UI/GenericModal";
 import NotificationsContent from "../activity/NotificationsContent";
 import logo from "../../assets/imgs/attimo_light.svg";
 import PropTypes from "prop-types";
+import { useNavigate } from 'react-router-dom';
+
 
 const SidebarContext = createContext();
 
@@ -48,11 +50,16 @@ export default function Sidebar({ children, image, username, email, items }) {
   }, []);
 
   const handleLogout = () => {
+
     localStorage.removeItem('token');
-    setProfileInfo({}); // Clear profile info from state
-    setNotifications([]); // Optionally clear notifications
-    navigate('/login'); // Ensure the page navigates to login after clearing session
+    setProfileInfo({});
+    setNotifications([]); 
+  raso
+    setTimeout(() => {
+      navigate('/login'); 
+    }, 0); 
   };
+  
 
   return (
     <>
