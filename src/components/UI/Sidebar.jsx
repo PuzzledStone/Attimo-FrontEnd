@@ -1,7 +1,7 @@
 import { ChevronFirst, ChevronLast, MoreVertical, LayoutDashboard, Home, Bell, BarChart, Sun, Moon, LogOut } from "lucide-react";
 import { createContext, useContext, useState, useEffect } from "react";
 import { useDarkMode } from "../hooks/useDarkMode";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ProfileContent } from "../activity/ProfileContent";
 import ProfileModal from "./ProfileModal";
 import GenericModal from "../UI/GenericModal";
@@ -16,108 +16,17 @@ export default function Sidebar({ children, image, username, email, items }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [profileInfo, setProfileInfo] = useState({});
   const { theme, handleChangeTheme } = useDarkMode();
-  const [notificationsModalIsOpen, setNotificationsModalIsOpen] =
-    useState(false);
-  const [notifications, setNotifications] = useState([
-    {
-      id: 1,
-      mandated: "Jorge Miranda",
-      mandatedImg:
-        "https://i.pinimg.com/564x/22/8b/cf/228bcf5a0800f813cd1744d4ccbf01ea.jpg",
-      description: "created an event",
-      time: "5 minutes ago",
-    },
-    {
-      id: 2,
-      mandated: "David Smith",
-      mandatedImg:
-        "https://i.pinimg.com/564x/22/8b/cf/228bcf5a0800f813cd1744d4ccbf01ea.jpg",
-      description: "created an event",
-      time: "18 minutes ago",
-    },
-    {
-      id: 3,
-      mandated: "María Jiménez",
-      mandatedImg:
-        "https://i.pinimg.com/564x/22/8b/cf/228bcf5a0800f813cd1744d4ccbf01ea.jpg",
-      description: "created an event",
-      time: "2 hours ago",
-    },
-    {
-      id: 4,
-      mandated: "Pedro Corsh",
-      mandatedImg:
-        "https://i.pinimg.com/564x/22/8b/cf/228bcf5a0800f813cd1744d4ccbf01ea.jpg",
-      description: "created an event",
-      time: "Yesterday",
-    },
-    {
-      id: 5,
-      mandated: "Gonzalo Jyma",
-      mandatedImg:
-        "https://i.pinimg.com/564x/22/8b/cf/228bcf5a0800f813cd1744d4ccbf01ea.jpg",
-      description: "created an event",
-      time: "Last week",
-    },
-    {
-      id: 6,
-      mandated: "Andres Cortes",
-      mandatedImg:
-        "https://i.pinimg.com/564x/22/8b/cf/228bcf5a0800f813cd1744d4ccbf01ea.jpg",
-      description: "created an event",
-      time: "Last week",
-    },
-    {
-      id: 7,
-      mandated: "Andres Cortes",
-      mandatedImg:
-        "https://i.pinimg.com/564x/22/8b/cf/228bcf5a0800f813cd1744d4ccbf01ea.jpg",
-      description: "created an event",
-      time: "Last week",
-    },
-    {
-      id: 8,
-      mandated: "Andres Cortes",
-      mandatedImg:
-        "https://i.pinimg.com/564x/22/8b/cf/228bcf5a0800f813cd1744d4ccbf01ea.jpg",
-      description: "created an event",
-      time: "Last week",
-    },
-    {
-      id: 9,
-      mandated: "Andres Cortes",
-      mandatedImg:
-        "https://i.pinimg.com/564x/22/8b/cf/228bcf5a0800f813cd1744d4ccbf01ea.jpg",
-      description: "created an event",
-      time: "Last week",
-    },
-    {
-      id: 10,
-      mandated: "Andres Cortes",
-      mandatedImg:
-        "https://i.pinimg.com/564x/22/8b/cf/228bcf5a0800f813cd1744d4ccbf01ea.jpg",
-      description: "created an event",
-      time: "Last week",
-    },
-    {
-      id: 11,
-      mandated: "Andres Cortes",
-      mandatedImg:
-        "https://i.pinimg.com/564x/22/8b/cf/228bcf5a0800f813cd1744d4ccbf01ea.jpg",
-      description: "created an event",
-      time: "Last week",
-    },
-  ]);
+  const [notificationsModalIsOpen, setNotificationsModalIsOpen] = useState(false);
+  const [notifications, setNotifications] = useState([ /* Your mock data */ ]);
+  const navigate = useNavigate(); // Hook for navigating to a different route
 
   const clearNotifications = () => {
     setNotifications([]);
   };
 
-  
- 
   const fetchProfileInfo = async () => {
     try {
-      const token = localStorage.getItem('token'); 
+      const token = localStorage.getItem('token');
       const response = await fetch('https://attimo-backend.vercel.app/public/api/user', {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -128,15 +37,20 @@ export default function Sidebar({ children, image, username, email, items }) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
-      setProfileInfo(data); // Actualizar el estado con la información del perfil
+      setProfileInfo(data);
     } catch (error) {
       console.error('Error fetching profile information:', error);
     }
   };
-  
+
   useEffect(() => {
     fetchProfileInfo();
-  }, []); 
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
 
   return (
     <>
@@ -146,9 +60,7 @@ export default function Sidebar({ children, image, username, email, items }) {
             <img
               alt={`${username} photo`}
               src={logo}
-              className={`overflow-hidden object-cover transition-all ${
-                expanded ? "w-32" : "w-0"
-              }`}
+              className={`overflow-hidden object-cover transition-all ${expanded ? "w-32" : "w-0"}`}
             />
             <button
               onClick={() => {
@@ -158,27 +70,15 @@ export default function Sidebar({ children, image, username, email, items }) {
               }}
               className="p-1.5 rounded-lg bg-clr-light-bg dark:bg-clr-light-secondary-bg duration-500"
             >
-              {expanded ? (
-                <ChevronFirst className="text-clr-dark-blue" />
-              ) : (
-                <ChevronLast className="text-clr-dark-blue" />
-              )}
+              {expanded ? <ChevronFirst className="text-clr-dark-blue" /> : <ChevronLast className="text-clr-dark-blue" />}
             </button>
           </div>
 
           <SidebarContext.Provider value={{ expanded }}>
             <ul className="flex flex-col gap-4 m-auto px-3">
               <SidebarItem icon={<Home size={20} />} text="Home" to="/attimo/home" />
-              <SidebarItem
-                icon={<LayoutDashboard size={20} />}
-                text="Events"
-                to="/attimo/events"
-              />
-              <SidebarItem
-                icon={<BarChart size={20} />}
-                text="Statistics"
-                to="/attimo/statistics"
-              />
+              <SidebarItem icon={<LayoutDashboard size={20} />} text="Events" to="/attimo/events" />
+              <SidebarItem icon={<BarChart size={20} />} text="Statistics" to="/attimo/statistics" />
               <SidebarItem
                 icon={<Bell size={20} />}
                 text="Notifications"
@@ -196,7 +96,7 @@ export default function Sidebar({ children, image, username, email, items }) {
               <SidebarItem
                 icon={<LogOut size={20} />}
                 text="Log Out"
-                to="/login"
+                onClick={handleLogout} // Llamar a la función de logout
               />
             </ul>
           </SidebarContext.Provider>
@@ -207,9 +107,7 @@ export default function Sidebar({ children, image, username, email, items }) {
             </div>
 
             <div
-              className={`flex justify-between items-center overflow-hidden transition-all ${
-                expanded ? "w-52 ml-3" : "w-0"
-              }`}
+              className={`flex justify-between items-center overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"}`}
             >
               <div className="leading-4">
                 <h4 className="font-semibold">{profileInfo.username}</h4>
@@ -229,7 +127,6 @@ export default function Sidebar({ children, image, username, email, items }) {
       </aside>
 
       {/* Profile Modal */}
-
       <ProfileModal isOpen={modalIsOpen} onClose={() => setModalIsOpen(false)}>
         {items.map((item) => (
           <ProfileContent
@@ -275,18 +172,12 @@ export function SidebarItem({ icon, text, active, alert, onClick, to }) {
     >
       <Link to={to} className="flex items-center" onClick={onClick}>
         {icon}
-        <div
-          className={`overflow-hidden transition-all ${
-            expanded ? "w-52 ml-3" : "w-0"
-          }`}
-        >
+        <div className={`overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"}`}>
           {text}
         </div>
         {alert && (
           <div
-            className={`absolute right-2 w-2 h-2 rounded bg-indigo-400 ${
-              expanded ? "" : "top-2"
-            }`}
+            className={`absolute right-2 w-2 h-2 rounded bg-indigo-400 ${expanded ? "" : "top-2"}`}
           ></div>
         )}
       </Link>
