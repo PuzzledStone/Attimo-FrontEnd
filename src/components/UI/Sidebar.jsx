@@ -8,7 +8,6 @@ import GenericModal from "../UI/GenericModal";
 import NotificationsContent from "../activity/NotificationsContent";
 import logo from "../../assets/imgs/attimo_light.svg";
 import PropTypes from "prop-types";
-import { useNavigate } from 'react-router-dom';
 
 
 const SidebarContext = createContext();
