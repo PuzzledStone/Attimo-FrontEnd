@@ -40,14 +40,13 @@ export function SignUpForm() {
             if (!response.ok) {
                 throw new Error(data.message || 'Network response was not ok');
             }
-    
-            // Registro exitoso, redirigir a la página deseada
+
             console.log('Registration successful');
-            navigate('/Questions'); // Redirigir a la página deseada después del registro exitoso
+            navigate('/Questions'); 
     
         } catch (error) {
             console.error('Error registering user:', error.message);
-            setError(error.message); // Mostrar el mensaje de error específico
+            setError(error.message); 
         }
     };
     

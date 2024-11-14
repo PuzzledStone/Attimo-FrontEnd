@@ -37,6 +37,7 @@ export function MyCourses({ items, name }) {
 
         setProfileInfo(data2);
         setCardCourses(data);
+        console.log(data);
       } catch (error) {
         console.error('Error fetching courses:', error);
        
