@@ -18,7 +18,7 @@ export default function Sidebar({ children, image, username, email, items }) {
   const { theme, handleChangeTheme } = useDarkMode();
   const [notificationsModalIsOpen, setNotificationsModalIsOpen] = useState(false);
   const [notifications, setNotifications] = useState([ /* Your mock data */ ]);
-  const navigate = useNavigate(); // Hook for navigating to a different route
+  const navigate = useNavigate();
 
   const clearNotifications = () => {
     setNotifications([]);
@@ -49,7 +49,9 @@ export default function Sidebar({ children, image, username, email, items }) {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    navigate('/login');
+    setProfileInfo({}); // Clear profile info from state
+    setNotifications([]); // Optionally clear notifications
+    navigate('/login'); // Ensure the page navigates to login after clearing session
   };
 
   return (
@@ -96,7 +98,7 @@ export default function Sidebar({ children, image, username, email, items }) {
               <SidebarItem
                 icon={<LogOut size={20} />}
                 text="Log Out"
-                onClick={handleLogout} // Llamar a la función de logout
+                onClick={handleLogout}
               />
             </ul>
           </SidebarContext.Provider>
@@ -131,7 +133,7 @@ export default function Sidebar({ children, image, username, email, items }) {
         {items.map((item) => (
           <ProfileContent
             key={item.id}
-            img={item.img}
+            img={item.image}
             name={item.name}
             lastName1={item.lastName1}
             lastName2={item.lastName2}
