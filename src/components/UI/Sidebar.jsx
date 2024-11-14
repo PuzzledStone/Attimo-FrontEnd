@@ -20,7 +20,7 @@ export default function Sidebar({ children, image, username, email, items }) {
   const { theme, handleChangeTheme } = useDarkMode();
   const [notificationsModalIsOpen, setNotificationsModalIsOpen] = useState(false);
   const [notifications, setNotifications] = useState([ /* Your mock data */ ]);
-  const navigate = useNavigate();
+
 
   const clearNotifications = () => {
     setNotifications([]);
