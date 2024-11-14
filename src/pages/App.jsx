@@ -34,7 +34,7 @@ export function App() {
  
   useEffect(() => {
     const checkAuth = () => {
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem('token');
       if (token) {
         setIsAuthenticated(true);
       } else {
