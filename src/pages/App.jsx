@@ -10,6 +10,21 @@ import Modal from 'react-modal';
 import { courses } from "../pages/HomePage.jsx";
 import PrivateRoute from "./PrivateRoute";  
 
+export const profileInfo = [
+    {
+        id: 1,
+        img:"https://i.pinimg.com/564x/22/8b/cf/228bcf5a0800f813cd1744d4ccbf01ea.jpg",
+        name:"Ernesto",
+        lastName1:"Jimenez",
+        lastName2:"Castro",
+        mail: "ernesto.jc@gmail.com",
+        usr: "erne12",
+        taskCompleted: 5,
+        taskRemaining: 43,
+        courses: courses
+    }
+];
+
 Modal.setAppElement('#root');
 
 export function App() {
@@ -42,10 +57,10 @@ export function App() {
       </aside>
 
       <Routes>
-        {/* Ruta pública */}
+      
         <Route path="/home" element={<HomePage name={profileInfo[0].name} />} />
 
-        {/* Rutas protegidas */}
+      
         <Route 
           path="/events" 
           element={<PrivateRoute element={<Events />} isAuthenticated={isAuthenticated} />} 
