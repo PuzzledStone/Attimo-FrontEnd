@@ -14,14 +14,14 @@ export function MyCourses({ items, name }) {
         const token = localStorage.getItem('token');
 
     
-        const response = await fetch('http://attimobackend.test/attimo-backend/public/api/user/courses', {
+        const response = await fetch('https://attimo-backend.vercel.app/public/api/user/courses', {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
           }
         });
 
-        const response2 = await fetch('http://attimobackend.test/attimo-backend/public/api/user', {
+        const response2 = await fetch('https://attimo-backend.vercel.app/public/api/user', {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'

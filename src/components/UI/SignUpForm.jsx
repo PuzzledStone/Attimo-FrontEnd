@@ -27,7 +27,7 @@ export function SignUpForm() {
                 password: password,
             };
     
-            const response = await fetch('http://attimobackend.test/attimo-backend/public/api/register', {
+            const response = await fetch('https://attimo-backend.vercel.app/public/api/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

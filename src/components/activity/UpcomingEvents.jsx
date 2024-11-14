@@ -11,7 +11,7 @@ export function UpcomingEvents({ items }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("http://attimobackend.test/attimo-backend/public/api/user/activities",{
+      const response = await fetch("https://attimo-backend.vercel.app/public/api/user/activities",{
           headers: {Authorization: `Bearer ${token}`,},
         });
 

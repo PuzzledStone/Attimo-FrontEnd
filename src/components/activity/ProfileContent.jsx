@@ -14,14 +14,14 @@ export function ProfileContent({ img, name, lastName1, lastName2, mail, usr, tas
 
   const fetchProfileInfo = async () => {
     try {
-      const response = await fetch('http://attimobackend.test/attimo-backend/public/api/user', {
+      const response = await fetch('https://attimo-backend.vercel.app/public/api/user', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         }
       });
 
-      const response2 = await fetch('http://attimobackend.test/attimo-backend/public/api/user/courses', {
+      const response2 = await fetch('https://attimo-backend.vercel.app/public/api/user/courses', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'

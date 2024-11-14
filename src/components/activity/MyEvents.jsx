@@ -15,7 +15,7 @@ export function MyEvents({ items }) {
   const getActivities = async () => {
     try {
       const response = await fetch(
-        "http://attimobackend.test/attimo-backend/public/api/user/activities",
+        "https://attimo-backend.vercel.app/public/api/user/activities",
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -118,7 +118,7 @@ export default function Sidebar({ children, image, username, email, items }) {
   const fetchProfileInfo = async () => {
     try {
       const token = localStorage.getItem('token'); 
-      const response = await fetch('http://attimobackend.test/attimo-backend/public/api/user', {
+      const response = await fetch('https://attimo-backend.vercel.app/public/api/user', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
