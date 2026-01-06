@@ -12,6 +12,7 @@ export function CardNotifications({
         <img
           className="w-14 rounded-lg"
           src={`${mandatedImg}`}
+          onError={(e) => {e.target.src = defaultImage}}
           alt={description}
         />
         <section className="grid">

@@ -9,7 +9,7 @@ export function CardEvents({title, description, date, image, category, status, p
 
     return(
         <div className="bg-white transition duration-300 dark:bg-clr-dark-third rounded-lg overflow-hidden dark:hover:brightness-[1.2] hover:brightness-[.80] cursor-pointer">
-            <div className='h-40 overflow-hidden'><img className="w-full bg-cover" src={`${image}`} alt="Courses Image" /></div>
+            <div className='h-40 overflow-hidden'><img className="w-full bg-cover" src={`${image}`} onError={(e) => {e.target.src = defaultImage}} alt="Courses Image" /></div>
             <div className="p-4">
                 <section className='flex justify-between'>
                     <h3 className='dark:text-white'>{title}</h3>
